@@ -1,0 +1,1 @@
+/usr/bin/c++ -std=c++11 -pthread  -O0 -Wall -g2 -ggdb -rdynamic CMakeFiles/http_thread.dir/main.cpp.o CMakeFiles/http_thread.dir/http_conn.cpp.o -o http_thread  -lmysqlclient 

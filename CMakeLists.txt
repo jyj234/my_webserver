@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 2.6)
+project(HTTP_THREAD)
+#link_directories("./")
+#include_directories("/usr/include/mysql/")
+set(SRC_LISTS main.cpp http_conn.cpp)
+set(CMAKE_CXX_STANDARD 11)
+SET(CMAKE_BUILD_TYPE "Debug")
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -pthread")
+add_executable(http_thread ${SRC_LISTS})
+target_link_libraries(http_thread libmysqlclient.so)
+
