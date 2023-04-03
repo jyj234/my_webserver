@@ -10,4 +10,4 @@
 完善登录业务功能\
 网站ip地址：121.41.46.247/blog/login.html（域名正在备案）\
 调用格式:\
-./build/http_thread [-t thread_number] port
+./build/http_thread [-t thread_number] [-p port]
