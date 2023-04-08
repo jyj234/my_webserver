@@ -19,7 +19,7 @@
 
 #define MAX_FD 65536
 #define MAX_EVENT_NUMBER 10000
-#define PRINT_INTPUT_ERROR printf( "usage: %s [-t thread_number] [-p port_number]\n", basename( argv[0] ) )
+#define PRINT_INTPUT_ERROR std::cout<<"usage:"<<basename(argv[0])<< " [-t thread_number] [-p port_number]"<<std::endl;
 
 extern int addfd( int epollfd, int fd, bool one_shot );
 extern int removefd( int epollfd, int fd );
@@ -50,7 +50,8 @@ void addsig( int sig, void( handler )(int), bool restart = true )
 
 void show_error( int connfd, const char* info )
 {
-    printf( "%s", info );
+	std::cout<<info<<std::endl;
+ //   printf( "%s", info );
     send( connfd, info, strlen( info ), 0 );
     close( connfd );
 }
@@ -123,7 +124,7 @@ int main( int argc, char* argv[] )
         int number = epoll_wait( epollfd, events, MAX_EVENT_NUMBER, -1 );
         if ( ( number < 0 ) && ( errno != EINTR ) )
         {
-            printf( "epoll failure\n" );
+		std::cout<< "epoll failure"<<std::endl;
             break;
         }
 
@@ -137,7 +138,7 @@ int main( int argc, char* argv[] )
                 int connfd = accept( listenfd, ( struct sockaddr* )&client_address, &client_addrlength );
                 if ( connfd < 0 )
                 {
-                    printf( "errno is: %d\n", errno );
+			std::cout<<"errno is: %d\n"<<std::endl;
                     continue;
                 }
                 if( http_conn::m_user_count >= MAX_FD )
@@ -145,7 +146,6 @@ int main( int argc, char* argv[] )
                     show_error( connfd, "Internal server busy" );
                     continue;
                 }
-               //printf("user_count=%d\n",http_conn::m_user_count); 
                 users[connfd].init( connfd, client_address );
 
             }
@@ -156,7 +156,7 @@ int main( int argc, char* argv[] )
             else if( events[i].events & ( EPOLLRDHUP | EPOLLHUP | EPOLLERR ) )
             {
                 users[sockfd].close_conn();
-		printf("close\n");
+		std::cout<<"close "<<sockfd<<std::endl;
             }
             else if( events[i].events & EPOLLIN )
             {
@@ -167,7 +167,7 @@ int main( int argc, char* argv[] )
                 else
                 {
                     users[sockfd].close_conn();
-		    printf("read error\n");
+		std::cout<<"close "<<sockfd<<std::endl;
                 }
             }
             else if( events[i].events & EPOLLOUT )
@@ -175,7 +175,7 @@ int main( int argc, char* argv[] )
                 if( !users[sockfd].write() )
                 {
                     users[sockfd].close_conn();
-		    printf("write error\n");
+		std::cout<<"close "<<sockfd<<std::endl;
                 }
             }
             else

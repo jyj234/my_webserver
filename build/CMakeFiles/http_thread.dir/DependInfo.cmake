@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/root/http_thread/http_conn.cpp" "CMakeFiles/http_thread.dir/http_conn.cpp.o" "gcc" "CMakeFiles/http_thread.dir/http_conn.cpp.o.d"
-  "/root/http_thread/main.cpp" "CMakeFiles/http_thread.dir/main.cpp.o" "gcc" "CMakeFiles/http_thread.dir/main.cpp.o.d"
+  "/root/my_webserver/http_conn.cpp" "CMakeFiles/http_thread.dir/http_conn.cpp.o" "gcc" "CMakeFiles/http_thread.dir/http_conn.cpp.o.d"
+  "/root/my_webserver/main.cpp" "CMakeFiles/http_thread.dir/main.cpp.o" "gcc" "CMakeFiles/http_thread.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links.

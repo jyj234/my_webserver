@@ -68,11 +68,15 @@ private:
     bool add_blank_line();
     bool add_content_type();
 
+    void divide_s(char* &last,char* &now);
+
 public:
     static int m_epollfd;
     static int m_user_count;
     static time_heap* m_time_heap;
     static int tmp;
+private:
+    static const std::string home;
 
 private:
     int m_sockfd;
@@ -88,8 +92,8 @@ private:
     CHECK_STATE m_check_state;
     METHOD m_method;
 
-    char m_real_file[ FILENAME_LEN ];
-    char* m_url;
+    std::string m_real_file;
+    std::string m_url;
     char* m_version;
     char* m_host;
     int m_content_length;
@@ -102,5 +106,4 @@ private:
 
     std::string file_type;
 };
-
 #endif

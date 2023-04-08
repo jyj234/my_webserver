@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /root/http_thread
+CMAKE_SOURCE_DIR = /root/my_webserver
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /root/http_thread/build
+CMAKE_BINARY_DIR = /root/my_webserver/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/http_thread.dir/depend.make
@@ -72,30 +72,30 @@ include CMakeFiles/http_thread.dir/flags.make
 CMakeFiles/http_thread.dir/main.cpp.o: CMakeFiles/http_thread.dir/flags.make
 CMakeFiles/http_thread.dir/main.cpp.o: ../main.cpp
 CMakeFiles/http_thread.dir/main.cpp.o: CMakeFiles/http_thread.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/http_thread/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/http_thread.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/http_thread.dir/main.cpp.o -MF CMakeFiles/http_thread.dir/main.cpp.o.d -o CMakeFiles/http_thread.dir/main.cpp.o -c /root/http_thread/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/my_webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/http_thread.dir/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/http_thread.dir/main.cpp.o -MF CMakeFiles/http_thread.dir/main.cpp.o.d -o CMakeFiles/http_thread.dir/main.cpp.o -c /root/my_webserver/main.cpp
 
 CMakeFiles/http_thread.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/http_thread.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/http_thread/main.cpp > CMakeFiles/http_thread.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/my_webserver/main.cpp > CMakeFiles/http_thread.dir/main.cpp.i
 
 CMakeFiles/http_thread.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/http_thread.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/http_thread/main.cpp -o CMakeFiles/http_thread.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/my_webserver/main.cpp -o CMakeFiles/http_thread.dir/main.cpp.s
 
 CMakeFiles/http_thread.dir/http_conn.cpp.o: CMakeFiles/http_thread.dir/flags.make
 CMakeFiles/http_thread.dir/http_conn.cpp.o: ../http_conn.cpp
 CMakeFiles/http_thread.dir/http_conn.cpp.o: CMakeFiles/http_thread.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/http_thread/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/http_thread.dir/http_conn.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/http_thread.dir/http_conn.cpp.o -MF CMakeFiles/http_thread.dir/http_conn.cpp.o.d -o CMakeFiles/http_thread.dir/http_conn.cpp.o -c /root/http_thread/http_conn.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/my_webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/http_thread.dir/http_conn.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/http_thread.dir/http_conn.cpp.o -MF CMakeFiles/http_thread.dir/http_conn.cpp.o.d -o CMakeFiles/http_thread.dir/http_conn.cpp.o -c /root/my_webserver/http_conn.cpp
 
 CMakeFiles/http_thread.dir/http_conn.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/http_thread.dir/http_conn.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/http_thread/http_conn.cpp > CMakeFiles/http_thread.dir/http_conn.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/my_webserver/http_conn.cpp > CMakeFiles/http_thread.dir/http_conn.cpp.i
 
 CMakeFiles/http_thread.dir/http_conn.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/http_thread.dir/http_conn.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/http_thread/http_conn.cpp -o CMakeFiles/http_thread.dir/http_conn.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/my_webserver/http_conn.cpp -o CMakeFiles/http_thread.dir/http_conn.cpp.s
 
 # Object files for target http_thread
 http_thread_OBJECTS = \
@@ -109,7 +109,7 @@ http_thread: CMakeFiles/http_thread.dir/main.cpp.o
 http_thread: CMakeFiles/http_thread.dir/http_conn.cpp.o
 http_thread: CMakeFiles/http_thread.dir/build.make
 http_thread: CMakeFiles/http_thread.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/http_thread/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable http_thread"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/my_webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable http_thread"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/http_thread.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -121,6 +121,6 @@ CMakeFiles/http_thread.dir/clean:
 .PHONY : CMakeFiles/http_thread.dir/clean
 
 CMakeFiles/http_thread.dir/depend:
-	cd /root/http_thread/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /root/http_thread /root/http_thread /root/http_thread/build /root/http_thread/build /root/http_thread/build/CMakeFiles/http_thread.dir/DependInfo.cmake --color=$(COLOR)
+	cd /root/my_webserver/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /root/my_webserver /root/my_webserver /root/my_webserver/build /root/my_webserver/build /root/my_webserver/build/CMakeFiles/http_thread.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/http_thread.dir/depend
 

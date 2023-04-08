@@ -2,6 +2,8 @@
 #include "time_heap.h"
  #include "userdata.h"
 #include "MysqlDB.h"
+#include<string.h>
+#include<string>
 #define TIMESLOT 5
 #define CLOSETIME 60
 const char* ok_200_title = "OK";
@@ -14,7 +16,8 @@ const char* error_404_form = "The requested file was not found on this server.\n
 const char* error_500_title = "Internal Error";
 const char* error_500_form = "There was an unusual problem serving the requested file.\n";
 const char* doc_root = "build/resource";
-const std::string table="userdata";
+const std::string table="user";
+const std::string http_conn::home="/index.html";
 int setnonblocking( int fd )
 {
     int old_option = fcntl( fd, F_GETFL );
@@ -57,7 +60,7 @@ void cb_func(int sockfd){
 
 	epoll_ctl(http_conn::m_epollfd,EPOLL_CTL_DEL,sockfd,0);
 	close(sockfd);
-	printf("close %d for timeout\n",sockfd);
+	std::cout<<"close "<<sockfd<<"for timeout"<<std::endl;
 }
 void http_conn::close_conn( bool real_close )
 {
@@ -96,7 +99,6 @@ void http_conn::init()
     m_linger = false;
 
     m_method = GET;
-    m_url = 0;
     m_version = 0;
     m_content_length = 0;
     m_host = 0;
@@ -106,7 +108,7 @@ void http_conn::init()
     m_write_idx = 0;
     memset( m_read_buf, '\0', READ_BUFFER_SIZE );
     memset( m_write_buf, '\0', WRITE_BUFFER_SIZE );
-    memset( m_real_file, '\0', FILENAME_LEN );
+    //memset( m_real_file, '\0', FILENAME_LEN );
 }
 
 http_conn::LINE_STATUS http_conn::parse_line()
@@ -176,13 +178,13 @@ bool http_conn::read()
 
 http_conn::HTTP_CODE http_conn::parse_request_line( char* text )
 {
-    m_url = strpbrk( text, " \t" );
-    if ( ! m_url )
+	char *url;
+    url = strpbrk( text, " \t" );
+    if ( ! url )
     {
         return BAD_REQUEST;
     }
-    *m_url++ = '\0';
-
+    *url++ = '\0';
     char* method = text;
     if ( strcasecmp( method, "GET" ) == 0 ){
         m_method = GET;
@@ -195,8 +197,8 @@ http_conn::HTTP_CODE http_conn::parse_request_line( char* text )
         return BAD_REQUEST;
     }
 
-    m_url += strspn( m_url, " \t" );
-    m_version = strpbrk( m_url, " \t" );
+    url += strspn( url, " \t" );
+    m_version = strpbrk( url, " \t" );
     if ( ! m_version )
     {
         return BAD_REQUEST;
@@ -212,17 +214,17 @@ http_conn::HTTP_CODE http_conn::parse_request_line( char* text )
         return BAD_REQUEST;
     }
 
-    if ( strncasecmp( m_url, "http://", 7 ) == 0 )
+    if ( strncasecmp( url, "http://", 7 ) == 0 )
     {
-        m_url += 7;
-        m_url = strchr( m_url, '/' );
+        url += 7;
+       url = strchr( url, '/' );
     }
 
-    if ( ! m_url || m_url[ 0 ] != '/' )
+    if ( ! url || url[ 0 ] != '/' )
     {
         return BAD_REQUEST;
     }
-
+    m_url=url;
     m_check_state = CHECK_STATE_HEADER;
     return NO_REQUEST;
 }
@@ -269,32 +271,33 @@ http_conn::HTTP_CODE http_conn::parse_headers( char* text )
     return NO_REQUEST;
 
 }
-
+void http_conn::divide_s(char* &last,char* &now){
+	now=strpbrk(++last,"&");
+	*now++='\0';
+	now=strpbrk(now,"=");
+}
 http_conn::HTTP_CODE http_conn::parse_content( char* text )
 {
-	std::cout<<"parse_content"<<std::endl;
+	std::string type;
     if ( m_read_idx >= ( m_content_length + m_checked_idx ) )
     {
-        text[ m_content_length ] = '\0';
-	std::cout<<text<<std::endl;
-	char* id,*email,*password;
-	id=strpbrk(text,"=");
-	email=strpbrk(++id,"&");
-	*email++='\0';
-	email=strpbrk(email,"=");
-	password=strpbrk(++email,"&");
-	*password++='\0';
-	password=strpbrk(password,"=");
-	password++;
 	MysqlDB<userdata>* db=MysqlDB<userdata>::getMysqlDB();
-//	db->add(table,id,email,password);
-	userdata u(id,email,password);
-	
+	userdata u;
+	std::cout<<text<<std::endl;
+	u.parse(text);
+	type=u.get("type");
+	u.remove("type");
+	if(type=="Signup")
 	db->add(table,u);
-//	u.print_data();
+	else if(type=="Signin"){
+		if(db->check(table,u)){
+			std::string home=http_conn::home;
+			m_url=home;
+		}
+	}
         return GET_REQUEST;
     }
-    std::cout<<"not"<<std::endl;
+   // std::cout<<"not"<<std::endl;
     return NO_REQUEST;
 }
 
@@ -309,8 +312,7 @@ http_conn::HTTP_CODE http_conn::process_read()
     {
         text = get_line();
         m_start_line = m_checked_idx;
-        printf( "got 1 http line: %s\n", text );
-
+	std::cout<< "got 1 http line: "<<text<<std::endl;
         switch ( m_check_state )
         {
             case CHECK_STATE_REQUESTLINE:
@@ -357,15 +359,15 @@ http_conn::HTTP_CODE http_conn::process_read()
 
 http_conn::HTTP_CODE http_conn::do_request()
 {
-    strcpy( m_real_file, doc_root );
-    int len = strlen( doc_root );
-    strncpy( m_real_file + len, m_url, FILENAME_LEN - len - 1 );
-    //int len_url=strlen(m_url);
-   // strncpy(m_real_file+len+len_url,"index.html",FILENAME_LEN-len-len_url-1);
-    printf("file address: %s\n",m_real_file);
-    if ( stat( m_real_file, &m_file_stat ) < 0 )
+
+    //strcpy( m_real_file, doc_root );
+    m_real_file=doc_root+m_url;
+    //int len = strlen( doc_root );
+    //strncpy( m_real_file + len,m_url, FILENAME_LEN - len - 1 );
+    //std::cout<<"file address:"+m_real_file<<std::endl;
+    if ( stat( m_real_file.c_str(), &m_file_stat ) < 0 )
     {
-	printf("resource not exist\n");
+	    std::cout<<"resource not exist"<<std::endl;
         return NO_RESOURCE;
     }
 
@@ -379,7 +381,7 @@ http_conn::HTTP_CODE http_conn::do_request()
         return BAD_REQUEST;
     }
 
-    int fd = open( m_real_file, O_RDONLY );
+    int fd = open( m_real_file.c_str(), O_RDONLY );
     m_file_address = ( char* )mmap( 0, m_file_stat.st_size, PROT_READ, MAP_PRIVATE, fd, 0 );
     close( fd );
     return FILE_REQUEST;
@@ -418,6 +420,7 @@ bool http_conn::write()
                 return true;
             }
             unmap();
+	   // printf("1\n");
             return false;
         }
 
@@ -435,6 +438,7 @@ bool http_conn::write()
             else
             {
                 modfd( m_epollfd, m_sockfd, EPOLLIN );
+	//	printf("2");
                 return false;
             } 
         }

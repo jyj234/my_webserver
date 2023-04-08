@@ -228,8 +228,9 @@
   <div class="container right-panel-active">
     <!-- Sign Up -->
     <div class="container__form container--signup">
-      <form method="post" enctype="application/x-www-form-urlencoded" class="form" id="form1" name="submitForm">
+      <form method="post" class="form" id="form1" name="submitForm">
         <h2 class="form__title">Sign Up</h2>
+	<input type="hidden" name="type" value="Signup">
         <input type="text" placeholder="User" class="input" name="id" />
         <input type="email" placeholder="Email" class="input" name="email" />
         <input type="password" placeholder="Password" class="input"name="password" />
@@ -239,10 +240,11 @@
 
     <!-- Sign In -->
     <div class="container__form container--signin">
-      <form action="" method="post"  class="form" id="form2">
+      <form method="post"  class="form" id="form2">
         <h2 class="form__title">Sign In</h2>
-        <input type="email" placeholder="Email" class="input" />
-        <input type="password" placeholder="Password" class="input" />
+	<input type="hidden" name="type" value="Signin">
+        <input type="email" placeholder="Email" class="input" name="email"/>
+        <input type="password" placeholder="Password" class="input" name="password" />
         <a href="#" class="link">Forgot your password?</a>
 	<button type="submit" class="btn">Sign In</button>
 <!--	<input  type="submit" value="Sign in">-->
